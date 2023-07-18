@@ -197,29 +197,36 @@ app.post("/deletefromwishlistdash",(req,res)=>{
 })
 
 app.post("/register",(req,res)=>{
-    bcrypt.hash(req.body.password, saltrounds, function(err, hash) {
-        if(err) console.log(err);
+    User.findOne({email : req.body.username}).then((found)=>{
+        if(found){
+            res.render("error",{text : "User already exist, please login !"})
+        }
         else{
-            const newuser = new User({
-                email : req.body.username,
-                password : hash,
-            });
+            bcrypt.hash(req.body.password, saltrounds, function(err, hash) {
+                if(err) console.log(err);
+                else{
+                    const newuser = new User({
+                        email : req.body.username,
+                        password : hash,
+                    });
+                
+                    newuser.save().then(() =>{
         
-            newuser.save().then(() =>{
-
-                const userlist = new Wishlist({
-                    email : req.body.username,
-                    usercoin : [],
-                });
-                userlist.save();
-
-                curruser = req.body.username;
-                res.redirect("/dashboard");
-            }).catch((err)=>{
-                console.log(err);
+                        const userlist = new Wishlist({
+                            email : req.body.username,
+                            usercoin : [],
+                        });
+                        userlist.save();
+        
+                        curruser = req.body.username;
+                        res.redirect("/dashboard");
+                    }).catch((err)=>{
+                        console.log(err);
+                    });
+                }
             });
         }
-    });
+    })
 })
 
 app.post("/login",(req,res)=>{
