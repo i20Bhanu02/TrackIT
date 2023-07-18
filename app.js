@@ -3,6 +3,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+
 const saltrounds = 5;
 var coins = [];
 var wishcoins = [];

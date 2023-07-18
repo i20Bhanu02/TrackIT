@@ -1,6 +1,0 @@
-{
-    "version": 2,
-    "name": "crypto_tracker",
-    "builds": [{ "src": "app.js", "use": "@vercel/node" }],
-    "routes": [{ "src": "/(.*)", "dest": "/server.js" }]
-  }
