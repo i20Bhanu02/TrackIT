@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
@@ -13,8 +14,21 @@ var sign = "$";
 var type = "rank";
 var quant = 50;
 var coinmap = [];
+const PORT = process.env.PORT;
 
-mongoose.connect("mongodb://127.0.0.1:27017/userDB");
+// for local access
+// mongoose.connect("mongodb://127.0.0.1:27017/userDB");
+
+// for Mongo Atlas
+
+const connectDB = async() =>{
+    try{
+        await mongoose.connect(process.env.URI);
+    } catch (err){
+        console.log("failed" + err.message);
+    }
+}
+connectDB();
 
 const app=express();
 app.use(bodyParser.urlencoded({extended:true}));
@@ -53,7 +67,7 @@ async function getresponce(type,quant){
         method: "POST",
         headers: new Headers({
             "content-type": "application/json",
-            "x-api-key": "cbd97065-9667-4f62-9fa8-d7a9fec147e3",
+            "x-api-key": process.env.APIKEY,
         }),
         body: JSON.stringify(api_req_body),
         });
@@ -66,7 +80,7 @@ async function getwishlist(coinmap){
         method: "POST",
         headers: new Headers({
           "content-type": "application/json",
-          "x-api-key": "cbd97065-9667-4f62-9fa8-d7a9fec147e3",
+          "x-api-key": process.env.APIKEY,
         }),
         body: JSON.stringify({
           codes: coinmap,
@@ -86,7 +100,7 @@ async function getsinglecoin(code){
         method: "POST",
         headers: new Headers({
           "content-type": "application/json",
-          "x-api-key": "cbd97065-9667-4f62-9fa8-d7a9fec147e3",
+          "x-api-key": process.env.APIKEY,
         }),
         body: JSON.stringify({
           code: code,
@@ -251,6 +265,6 @@ app.post("/singlesearch",async(req,res)=>{
     res.redirect("/searchquery");
 })
 
-app.listen(4000,()=>{
+app.listen(PORT,()=>{
     console.log("server started succesfully!");
 })
