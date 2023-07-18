@@ -14,3 +14,194 @@ body {
   color: #fff;
   background-color: #000;
 }
+
+.tgline {
+  margin-top: 0;
+}
+
+.brand {
+  margin-bottom: 0;
+}
+
+.reg{
+  display: inline;
+}
+
+.logodiv{
+  text-align: center;
+}
+
+.blk{
+  display: block;
+}
+
+.brand{
+  display: inline;
+  margin: 0;
+  margin-left: 1rem;
+}
+
+.brandlogo{
+  margin: 0;
+}
+
+.rankform{
+  text-align: center;
+  padding-top: 5%;
+  padding-bottom: 3%;
+}
+
+.rankform input{
+  width: 4rem;
+  margin-left: 0.4rem;
+  margin-right: 0.4rem;
+}
+
+.rankform select{
+  width: 9rem;
+  margin-left: 0.4rem;
+  margin-right: 0.4rem;
+}
+
+.rankform button{
+  margin-right: 0.5rem;
+}
+
+.searchformele{
+  display: inline;
+}
+
+.dashcoincode{
+  margin-left: 3%;
+  text-decoration-color: gray;
+}
+
+.stronger{
+  font-weight:600;
+}
+
+.red{
+  color:#ea3943
+}
+
+.green{
+  color: #16c784;
+}
+
+.carret{
+  height: 0.5rem;
+  width: 0.7rem;
+}
+
+.tablediv{
+  width: 100%;
+  padding-top: 2rem;
+  margin-bottom: 5rem;
+  border-radius: 25px;
+  box-shadow: 2px 2px 4px 4px #8CCCC8;
+  background-color: #fff;
+}
+
+
+.cointable{
+  background-color: #fff;
+  
+}
+
+table{
+  border-spacing: 0rem;
+}
+
+.rank{
+  text-align: center;
+}
+
+.cells{
+  text-align: right;
+  padding-right: 1.5rem;
+  padding-top: 2 rem;
+  padding-bottom: 2rem;
+}
+
+.coinname{
+  text-align: left;
+}
+
+.coinlogo{
+  height: 13%;
+  width: 13%;
+}
+
+
+.coinrow{
+  border-bottom: 1px solid #dee1e4;
+}
+tr.coinrow td {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.footer{
+  text-align: center;
+  margin-top : 3rem;
+  margin-bottom: 2rem;
+}
+
+
+.watchlist_head{
+  text-align: center;
+  padding-top: 4rem;
+  padding-bottom: 2rem;
+}
+
+.inline{
+  display: inline;
+}
+
+.back button{
+  margin-left: 2rem;
+}
+
+.singlecoinheading{
+  text-align: center;
+  font-size: 1.3rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+.singlecoinname{
+  font-size: 2.2rem;
+}
+
+.singlecoincode{
+  font-size:2rem;
+  color: grey;
+  margin-right: 2rem;
+}
+
+.singleclose{
+  float:right;
+}
+
+.singlecoindata{
+  font-size: 1.2rem;
+}
+
+.singletopcont{
+  margin-top: 2rem;
+  padding-bottom: 2rem;
+  margin-bottom: 2rem;
+}
+
+.singlecoinprops{
+  padding-right: 3rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.singlecoinvals{
+  padding-left: 3rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+

@@ -93,9 +93,8 @@ async function getsinglecoin(code){
           currency: currency,
           meta: true,
         }),
-      });
+      }) 
     singlecoin = await res.json();
-
 }
 
 app.get("/",(req,res)=>{
@@ -112,22 +111,23 @@ app.get("/register",(req,res)=>{
 
 app.get("/dashboard",async(req,res)=>{
     await getresponce(type,quant);
-    res.render("index",{coins:coins,curr:currency,sign:sign,wishcodes : coinmap});
+    res.render("dashboard",{coins:coins,curr:currency,sign:sign,wishcodes : coinmap});
 })
 
 app.get("/wishlist",async (req,res)=>{
 
-    if(curruser == "guest") res.render("loginerror",{text : "Please login to access Watchlist"});
+    if(curruser == "guest") res.render("error",{text : "Please login to access Watchlist"});
     else{
         await getwishlist(coinmap);
-        res.render("wishlist",{coins:wishcoins,sign:sign});
+        res.render("wishlist",{coins:wishcoins,sign:sign,curr:currency});
     }
     
 })
 
 app.get("/searchquery",async(req,res)=>{
     await getsinglecoin(coincode);
-    res.render("singlecoin",{coin : singlecoin, code:coincode,sign:sign,wishcodes:coinmap});
+    if(singlecoin.hasOwnProperty("error")) res.render("error",{text : singlecoin.error.description});
+    else res.render("singlecoin",{coin : singlecoin, code:coincode,sign:sign,wishcodes:coinmap,curr:currency});
 })
 
 app.post("/",(req,res)=>{
@@ -152,6 +152,15 @@ app.post("/addtowishlistsingle",(req,res)=>{
         coinmap.push(req.body.code);
     }
     res.redirect("/searchquery");
+})
+
+app.post("/deletefromwishlist",(req,res)=>{
+    Wishlist.updateOne({email:curruser},{ $pull: { coinlist: req.body.code }}).catch((err)=>{
+        console.log(err);
+    });
+    const idx = coinmap.indexOf(req.body.code);
+    coinmap.splice(idx,1);
+    res.redirect("/wishlist");
 })
 
 app.post("/deletefromwishlistsingle",(req,res)=>{
@@ -212,10 +221,10 @@ app.post("/login",(req,res)=>{
 
                     res.redirect("/dashboard");
                 }
-                else res.render("loginerror",{text:"Invalid Password"});
+                else res.render("error",{text:"Invalid Password"});
             });
         }
-        else res.render("loginerror",{text:"Username doesnot exist, please register"});
+        else res.render("error",{text:"Username doesnot exist, please register"});
     }).catch((err)=>{
         console.log(err);
     })
@@ -224,7 +233,7 @@ app.post("/login",(req,res)=>{
 app.post("/currency",async(req,res)=>{
     currency = req.body.setcurr;
     if(currency=="USD") sign="$";
-    else sign = "₹"
+    else sign = "₹";
     await getresponce("rank",50)
     res.redirect("/dashboard");
 })

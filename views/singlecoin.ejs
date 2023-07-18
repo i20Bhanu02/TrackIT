@@ -4,8 +4,9 @@
 
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="refresh" content="10">
+  <!-- <meta http-equiv="refresh" content="10"> -->
   <title>TrackIT</title>
+  <link rel="shortcut icon" href="favicon.ico"/>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
   <link rel="stylesheet" href="css/styles.css">
@@ -13,101 +14,176 @@
 
 <body>
 
-<img src=<%=coin.png64 %>> 
-<br>
-<%=coin.name%> 
-<% if(wishcodes.includes(code) == 0) { %> 
-    <form id=<%=code%> action="/addtowishlistsingle" method="post">
-        <input type="hidden" name="code" value = <%=code%>>
-        <img src="https://cdn-icons-png.flaticon.com/128/1077/1077035.png" class="wishlist" value = <%=code%> height="20" width="20">
-    </form>
-<% } else { %>
-    <form id=<%=code%> action="/deletefromwishlistsingle" method="post">
-        <input type="hidden" name="code" value = <%=code%>>
-        <img src="https://cdn-icons-png.flaticon.com/128/2107/2107845.png" class="wishlist" value = <%=code%> height="20" width="20">
-    </form>
-<% } %>
-<br>
-<%=code %>
+  <div class="card col-6 mx-auto singletopcont">  
+    <div class="container singlecoinheading">
+      <img src=<%=coin.png64 %>> 
+      <span class="singlecoinname"><%=coin.name%></span> 
+      <span class="singlecoincode"><%=code %></span>
+      
+      <% if(wishcodes.includes(code) == 0) { %> 
+          <form class="inline" id=<%=code%> action="/addtowishlistsingle" method="post">
+              <input type="hidden" name="code" value = <%=code%>>
+              <img src="https://cdn-icons-png.flaticon.com/128/1077/1077035.png" class="wishlist" value = <%=code%> height="20" width="20">
+          </form>
+      <% } else { %>
+          <form  class="inline" id=<%=code%> action="/deletefromwishlistsingle" method="post">
+              <input type="hidden" name="code" value = <%=code%>>
+              <img src="https://cdn-icons-png.flaticon.com/128/2107/2107845.png" class="wishlist" value = <%=code%> height="20" width="20">
+          </form>
+      <% } %>
+      <form class="inline" action="/dashboard" method="get">
+          <button type="submit" class="btn-close singleclose" aria-label="Close"></button>
+      </form>
+    </div>
 
-<table>
-    <thead>
-        <th>Coin</th>
-        <th><%=coin.name %></th>
-    </thead>
 
-    <tbody>
-        <tr>
-            <td>Code</td>
-            <td><%=code %></td>
-        </tr>
-        <tr>
-            <td>Symbol</td>
-            <td><%=coin.symbol %></td>
-        </tr>
-        <tr>
-            <td>Price</td>
-            <td><%=sign%><%=coin.rate %></td>
-        </tr>
-        <tr>
-            <td>Volume</td>
-            <td><%=sign%><%=coin.volume %></td>
-        </tr>
-        <tr>
-            <td>Market Cap</td>
-            <td><%=sign%><%=coin.cap %></td>
-        </tr>
-        <tr>
-            <td>All time high USD</td>
-            <td>$<%=coin.allTimeHighUSD %></td>
-        </tr>
-        <tr>
-            <td>Circulating Supply</td>
-            <td><%=coin.circulatingSupply %></td>
-        </tr>
-        <tr>
-            <td>Total Supply</td>
-            <td><%=coin.totalSupply %></td>
-        </tr>
-        <tr>
-            <td>Max Supply</td>
-            <td><%=coin.maxSupply %></td>
-        </tr>
-        <tr>
-            <td>Categories</td>
-            <td><%=coin.categories %></td>
-        </tr>
-        <tr>
-            <td>1 hr</td>
-            <td><%=coin.delta.hour%>%</td>
-        </tr>
-        <tr>
-            <td>24 hr</td>
-            <td><%=coin.delta.day%>%</td>
-        </tr>
-        <tr>
-            <td>Weekly</td>
-            <td><%=coin.delta.week%>%</td>
-        </tr>
-        <tr>
-            <td>Monthly</td>
-            <td><%=coin.delta.month%>%</td>
-        </tr>
-        <tr>
-            <td>Quarterly</td>
-            <td><%=coin.delta.quarter%>%</td>
-        </tr>
-        <tr>
-            <td>Yerly</td>
-            <td><%=coin.delta.year%>%</td>
-        </tr>
-    </tbody>
 
-</table>
+    <% function make_num(num){ %>
+        <% num==null ? num=0 : null %>
+        <% const cd = curr[0]+curr[1]; %>
+        <% var commas = num.toLocaleString("en-"+cd); %>
+        <% return commas; %>
+    <% } %>
 
-<form action="/dashboard" method="get">
-    <button type = "submit">Back</button>
-</form>
+    <% function percent(rate){ %>
+        <% rate==null ? rate=0 : null %>
+        <% return Math.round(((rate-1)*100 + Number.EPSILON) * 100) / 100 ; %>
+    <% } %>
+
+
+    <div class="container singlecoindata">
+        <table class="mx-auto singlecointable">
+    
+            <tbody>
+                <tr>
+                    <td class="singlecoinprops stronger"> Coin</td>
+                    <td class="singlecoinvals"><%=coin.name %></td>
+                </tr>
+                <tr>
+                    <td class="singlecoinprops stronger"> Code</td>
+                    <td class="singlecoinvals"><%=code %></td>
+                </tr>
+                <tr>
+                    <td class="singlecoinprops stronger"> Symbol</td>
+                    <td class="singlecoinvals"><%=coin.symbol %></td>
+                </tr>
+                <tr>
+                    <td class="singlecoinprops stronger"> Price</td>
+                    <td class="singlecoinvals"><%=sign%><%=coin.rate %></td>
+                </tr>
+                <tr>
+                    <td class="singlecoinprops stronger"> Volume</td>
+                    <td class="singlecoinvals"><%=sign%><%=make_num(coin.volume) %></td>
+                </tr>
+                <tr>
+                    <td class="singlecoinprops stronger"> Market Cap</td>
+                    <td class="singlecoinvals"><%=sign%><%=make_num(coin.cap) %></td>
+                </tr>
+                <tr>
+                    <td class="singlecoinprops stronger"> All time high USD</td>
+                    <td class="singlecoinvals">$<%=coin.allTimeHighUSD %></td>
+                </tr>
+                <tr>
+                    <td class="singlecoinprops stronger"> Circulating Supply</td>
+                    <td class="singlecoinvals"><%=make_num(coin.circulatingSupply) %> <%=code %></td> 
+                </tr>
+                <tr>
+                    <td class="singlecoinprops stronger"> Total Supply</td>
+                    <td class="singlecoinvals"><%=make_num(coin.totalSupply) %> <%=code %></td>
+                </tr>
+                <tr>
+                    <td class="singlecoinprops stronger"> Max Supply</td>
+                    <td class="singlecoinvals"><%=make_num(coin.maxSupply) %> <%=code %></td>
+                </tr>
+                <tr>
+                    <td class="singlecoinprops stronger"> Categories</td>
+                    <td class="singlecoinvals"><%=coin.categories %></td>
+                </tr>
+                <tr>
+                    <td class="singlecoinprops stronger"> 1 hr</td>
+                    <td class="singlecoinvals">
+                        <% var rt = percent(coin.delta.hour)  %> 
+                        <% if(rt < 0) { %>
+                          <span class="red"><%= rt*-1%>%</span>
+                          <img class="carret" src="down.png">
+                        <% } else { %>
+                          <span class="green"><%= rt%>%</span>
+                          <img class="carret" src="up.png">
+                        <% } %>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="singlecoinprops stronger"> 24 hr</td>
+                    <td class="singlecoinvals">
+                        <% var rt = percent(coin.delta.day)  %> 
+                        <% if(rt < 0) { %>
+                          <span class="red"><%= rt*-1%>%</span>
+                          <img class="carret" src="down.png">
+                        <% } else { %>
+                          <span class="green"><%= rt%>%</span>
+                          <img class="carret" src="up.png">
+                        <% } %>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="singlecoinprops stronger"> Weekly</td>
+                    <td class="singlecoinvals">
+                        <% var rt = percent(coin.delta.week)  %> 
+                        <% if(rt < 0) { %>
+                          <span class="red"><%= rt*-1%>%</span>
+                          <img class="carret" src="down.png">
+                        <% } else { %>
+                          <span class="green"><%= rt%>%</span>
+                          <img class="carret" src="up.png">
+                        <% } %>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="singlecoinprops stronger"> Monthly</td>
+                    <td class="singlecoinvals">
+                        <% var rt = percent(coin.delta.month)  %> 
+                        <% if(rt < 0) { %>
+                          <span class="red"><%= rt*-1%>%</span>
+                          <img class="carret" src="down.png">
+                        <% } else { %>
+                          <span class="green"><%= rt%>%</span>
+                          <img class="carret" src="up.png">
+                        <% } %>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="singlecoinprops stronger"> Quarterly</td>
+                    <td class="singlecoinvals">
+                        <% var rt = percent(coin.delta.quarter)  %> 
+                        <% if(rt < 0) { %>
+                          <span class="red"><%= rt*-1%>%</span>
+                          <img class="carret" src="down.png">
+                        <% } else { %>
+                          <span class="green"><%= rt%>%</span>
+                          <img class="carret" src="up.png">
+                        <% } %>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="singlecoinprops stronger"> Yearly</td>
+                    <td class="singlecoinvals">
+                        <% var rt = percent(coin.delta.year)  %> 
+                        <% if(rt < 0) { %>
+                          <span class="red"><%= rt*-1%>%</span>
+                          <img class="carret" src="down.png">
+                        <% } else { %>
+                          <span class="green"><%= rt%>%</span>
+                          <img class="carret" src="up.png">
+                        <% } %>
+                    </td>
+                </tr>
+            </tbody>
+        
+        </table>
+    </div>
+  </div>
+
+
 
 <script src="JS/wish.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>

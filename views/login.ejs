@@ -1,42 +1,37 @@
 <%- include('partials/header') %>
 
 <div class="container mt-5">
-  <h1>Login</h1>
-
   <div class="row">
-    <div class="col-sm-8">
-      <div class="card">
-        <div class="card-body">
-
-          <!-- Makes POST request to /login route -->
+    <div class="col-sm-7 mx-auto">
+      <div class="card card-body">
+        <div class="mx-auto logodiv">
+          <img src="https://cdn-icons-png.flaticon.com/128/1183/1183225.png" alt="Logo" width="150" height="150" class="logo">
+          <h2>Sign in to TrackIT</h2>
+        </div>
+          <hr class="dropdown-divider">
+          <br> <br>
           <form action="/login" method="POST">
-            <div class="form-group">
-              <label for="email">Email</label>
-              <input type="email" class="form-control" name="username">
+            <div class="form-group input-group-lg mx-auto col-12">
+              <label for="email"><strong>Email</strong> </label>
+              <input type="email" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" name="username">
             </div>
-            <div class="form-group">
-              <label for="password">Password</label>
-              <input type="password" class="form-control" name="password">
+            <div class="form-group input-group-lg mx-auto col-12">
+              <label for="password"><strong>Password</strong></label>
+              <input type="password" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" name="password">
             </div>
-            <button type="submit" class="btn btn-dark">Login</button>
+            <br>
+            <div class="d-grid gap-2 col-6 mx-auto">
+              <button type="submit" class="btn btn-dark btn-lg">Sign In</button>
+              <span class="mx-auto">Don't have an account? <a href="/register">Signup</a></span>
+            </div>
+            
           </form>
 
-        </div>
       </div>
     </div>
 
-    <!-- <div class="col-sm-4">
-      <div class="card">
-        <div class="card-body">
-          <a class="btn btn-block" href="/auth/google" role="button">
-            <i class="fab fa-google"></i>
-            Sign In with Google
-          </a>
-        </div>
-      </div>
-    </div> -->
-
   </div>
 </div>
+
 
 <%- include('partials/footer') %>
