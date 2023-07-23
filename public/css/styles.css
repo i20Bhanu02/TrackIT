@@ -123,6 +123,11 @@ table{
   padding-bottom: 2rem;
 }
 
+.wishcell{
+  pointer-events :inherit ;
+  z-index: 1000;
+}
+
 .coinname{
   text-align: left;
 }
@@ -136,6 +141,7 @@ table{
 .coinrow{
   border-bottom: 1px solid #dee1e4;
 }
+
 tr.coinrow td {
   padding-top: 20px;
   padding-bottom: 20px;
@@ -147,6 +153,17 @@ tr.coinrow td {
   margin-bottom: 2rem;
 }
 
+.info-icon{
+  color: gray;
+}
+
+.float{
+  float: right;
+}
+
+.floatl{
+  float: left;
+}
 
 .watchlist_head{
   text-align: center;

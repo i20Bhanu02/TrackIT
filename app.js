@@ -126,7 +126,7 @@ app.get("/register",(req,res)=>{
 
 app.get("/dashboard",async(req,res)=>{
     await getresponce(type,quant);
-    res.render("dashboard",{coins:coins,curr:currency,sign:sign,wishcodes : coinmap});
+    res.render("dashboard",{coins:coins,curr:currency,sign:sign,wishcodes : coinmap,type:type});
 })
 
 app.get("/wishlist",async (req,res)=>{

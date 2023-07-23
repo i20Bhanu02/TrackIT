@@ -4,9 +4,10 @@
 
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="refresh" content="10">
+  <meta http-equiv="refresh" content="15">
   <title>TrackIT</title>
   <link rel="shortcut icon" href="favicon.ico"/>
+  <script src="https://kit.fontawesome.com/caf707322c.js" crossorigin="anonymous"></script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
   <link rel="stylesheet" href="css/styles.css">
@@ -35,7 +36,7 @@
                   <%=curr%>
                 </a>
                 <ul class="dropdown-menu ">
-                  <form id="contact-form" action="/currency" method="post">
+                  <form id="cng-curr" action="/currency" method="post">
                     <li><a class="dropdown-item getcurr" href="#">USD</a></li>
                     <li><a class="dropdown-item getcurr" href="#">INR</a></li>
                     <li><hr class="dropdown-divider"></li>
@@ -50,8 +51,8 @@
               <button submit="button" class="btn btn-outline-light">Watchlist</button>
             </form>
             &nbsp;&nbsp;
-            <form class="d-flex" role="search" action="/singlesearch" method="post">
-              <input class="form-control me-2" type="search" placeholder="Search coincode " aria-label="Search" name="code">
+            <form id="singlecoinsearch" class="d-flex" role="search" action="/singlesearch" method="post">
+              <input id="singlecoinsearchcode" class="form-control me-2" type="search" placeholder="Search coincode (BTC)" aria-label="Search" name="code">
               <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
           </div>
@@ -59,22 +60,35 @@
       </nav>
       <div class="container">
 
-        <div class="row rankform">
+        <div id="searchtype" class="row rankform" name=<%=type%>>
           <h3> Rank Top Crytocurrency live </h3>
           <form action="/coinlist" method="post">
             Top 
             <!-- <input type="number" name="quant" min="0" max="300">  -->
-            <input autocomplete="off" class="form-control searchformele" type="number" name="quant" min="0" max="300">
+            <input autocomplete="off" class="form-control searchformele" type="number" name="quant" min="1" max="300" value=<%= coins.length %> >
             coins by 
             
             <select class="form-select searchformele" name="type">
-                <option value="rank" >Market Cap</option>
-                <option value="price" >Price</option>
-                <option value="volume" >Volume</option>
+                <option class="searchcriteria" value="rank" >Market Cap</option>
+                <option class="searchcriteria" value="price" >Price</option>
+                <option class="searchcriteria" value="volume" >Volume</option>
             </select>
+
             <button class="searchformele btn btn-dark" type="submit" >Search</button>
           </form>
         </div>
+
+        <div class="collapse float" id="cap">
+          <div class="card card-body">
+            The total market value of a cryptocurrency's circulating supply.
+          </div>
+        </div>
+        <div class="collapse float" id="vol">
+          <div class="card card-body">
+            A measure of how much of a cryptocurrency was traded in the last 24 hours.
+          </div>
+        </div>
+        
 
         <div class="tablediv">
           <table class="cointable mx-auto">
@@ -87,16 +101,21 @@
                 <th class="cells">1h %</th>
                 <th class="cells">24h %</th>
                 <th class="cells">7d %</th>
-                <th class="cells">Market Cap</th>
-                <th class="cells">Volume 24h</th>
-                <th class="cells">All-time High</th>
-                <th></th>
+                <th class="cells">
+                  Market Cap 
+                  <a data-bs-toggle="collapse" href="#cap" class="info-icon"><i class="fa-solid fa-circle-info"></i></a>
+                </th>
+                <th class="cells">
+                  Volume 24h 
+                  <a data-bs-toggle="collapse" href="#vol" class="info-icon"><i class="fa-solid fa-circle-info"></i></a>
+                </th>
+                <th class="cells"> All-time High </th>
               </tr>
             </thead>
     
             <tbody class="stronger">
               <% for(var i=0;i<coins.length;i++){ %>
-                <tr class="coinrow">
+                <tr class="coinrow coinbtn" name=<%=coins[i].code%>>
                   <% if(wishcodes.includes(coins[i].code) == 0) { %> 
                     <th class="wishcell">
                         <form id=<%=coins[i].code %> action="/addtowishlistdash" method="post">
@@ -124,7 +143,7 @@
                   <% rate==null ? rate=0 : null %>
                   <% return Math.round(((rate-1)*100 + Number.EPSILON) * 100) / 100 ; %>
                 <% } %>
-  
+
                   <td class="cells rank "><%= i+1  %></td>
                   <td class="cells coinname"><img class="coinlogo" src=<%= coins[i].png64 %>> <strong><%=coins[i].name%></strong>  <span class="dashcode"><%=coins[i].code%></span></td>
                   <td class="cells"><%=Math.round((coins[i].rate + Number.EPSILON) * 100) / 100 == 0? sign + Math.round((coins[i].rate + Number.EPSILON) * 10000000) / 10000000 : tocurrency(coins[i].rate) %></td>
@@ -167,10 +186,11 @@
           </table>
         </div>
       </div>
+      
 
-
-      <script src="JS/dash.js"></script>
       <script src="JS/wish.js"></script>
+      <script src="JS/dash.js"></script>
+      
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 
     
