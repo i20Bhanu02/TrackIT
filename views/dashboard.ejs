@@ -58,8 +58,14 @@
           </div>
         </div>
       </nav>
-      <div class="container">
 
+      <% if(type == "price"){ %>
+        <div class="mx-auto col-11">
+      <% } else { %>
+        <div class="container">
+      <% } %>
+        
+      
         <div id="searchtype" class="row rankform" name=<%=type%>>
           <h3> Rank Top Crytocurrency live </h3>
           <form action="/coinlist" method="post">
