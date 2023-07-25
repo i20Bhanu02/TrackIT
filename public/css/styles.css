@@ -15,6 +15,20 @@ body {
   background-color: #000;
 }
 
+.coinrow:hover > th :hover{
+  cursor : cell;
+}
+
+.wishlisticon{
+  cursor: cell;
+}
+
+.coinrow:hover > td {
+  background:rgb(230, 235, 244);
+  cursor : pointer;
+}
+
+
 .tgline {
   margin-top: 0;
 }
@@ -140,9 +154,19 @@ table{
 
 .coinrow{
   border-bottom: 1px solid #dee1e4;
+  
+}
+
+.coinrowhead{
+  border-bottom: 1px solid #dee1e4;
 }
 
 tr.coinrow td {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+tr.coinrowhead td {
   padding-top: 20px;
   padding-bottom: 20px;
 }
